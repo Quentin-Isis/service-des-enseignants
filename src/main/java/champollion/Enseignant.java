@@ -1,6 +1,13 @@
 package champollion;
 
 public class Enseignant extends Personne {
+    
+    private int hCM;
+    private int hTD;
+    private int hTP;
+    private int H;
+    private int D;
+    private UE U;
 
     // TODO : rajouter les autres méthodes présentes dans le diagramme UML
 
@@ -17,8 +24,8 @@ public class Enseignant extends Personne {
      *
      */
     public int heuresPrevues() {
-        // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        H= hCM +hTD +hTP;
+        return H;
     }
 
     /**
@@ -31,10 +38,15 @@ public class Enseignant extends Personne {
      *
      */
     public int heuresPrevuesPourUE(UE ue) {
-        // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        if (U==ue) {
+         return hCM+hTD+hTP; 
+        }
+        return H;
     }
-
+    
+    public int heuresPlanifiées () {
+        return D;
+    }
     /**
      * Ajoute un enseignement au service prévu pour cet enseignant
      *
@@ -44,8 +56,20 @@ public class Enseignant extends Personne {
      * @param volumeTP le volume d'heures de TP
      */
     public void ajouteEnseignement(UE ue, int volumeCM, int volumeTD, int volumeTP) {
-        // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+       ServicePrevu sp = new ServicePrevu(volumeCM,volumeTD,volumeTP);
+       U = ue;
+       hCM+= Math.round(sp.getvolumeCM()*1.5);
+       hTD+= sp.getvolumeTD();
+       hTP+= Math.round(sp.getvolumeTP()*0.75);
     }
-
+    public void ajouteIntervention (Intervention e) {
+        Intervention inter = e;
+        D+=inter.getDuree();
+    }
+    public boolean sousService() {
+        if(H<192) {
+            return true;
+        }
+        return false;
+    }
 }
